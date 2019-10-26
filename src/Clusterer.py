@@ -3,12 +3,16 @@ from Preprocessor import Preprocessor
 from LineScorer import LineScorer
 
 
-# VARIABLES = [
-#     ('version', 'v\\d+\\.\\d+\\.\\d+')
-# ]
+VARIABLES = [
+    ('<ip>', '\\d{3}\\.\\d{3}\\.\\d{3}\\.\\d{3}'),
+    ('<date>', '\\d{4}-\\d{2}-\\d{2}'),
+    ('<time>', '\\d{2}:\\d{2}(:\\d{2})?'),
+    ('<number>', '\\d+'),
+]
+
 
 class Clusterer():
-    def __init__(self, k1=1, k2=0, max_dist=0.9, variables=[]):
+    def __init__(self, k1=1, k2=1, max_dist=0.01, variables=[]):
         self.preprocessor = Preprocessor(variables)
         self.scorer = LineScorer(k1, k2)
         self.max_dist = max_dist
@@ -18,7 +22,6 @@ class Clusterer():
         c = 0
         for line in iterable_logs:
             c += 1
-            # print('read', c)
             tokens = re.split('\\s+', line)
             processed_tokens = self.preprocessor.process(tokens)
 
