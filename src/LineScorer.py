@@ -8,6 +8,9 @@ class LineScorer():
         self.early_returned = False
 
     def distance(self, fields1, fields2, max_dist=None):
+        if not (isinstance(fields1, list) and isinstance(fields2, list)):
+            raise TypeError('Fields must be a list')
+
         max_len = max(len(fields1), len(fields2))
         min_len = min(len(fields1), len(fields2))
 

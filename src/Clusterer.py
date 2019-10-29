@@ -31,7 +31,7 @@ class Clusterer():
             score = self.scorer.distance(
                 representative, processed_tokens, self.max_dist
             )
-            if score < self.max_dist:
+            if score <= self.max_dist:
                 found = True
                 self.clusters[i][1] += 1
                 break
