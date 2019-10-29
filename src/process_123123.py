@@ -18,6 +18,7 @@ def map_segments_to_clusters(x):
     return [(1, clusters)]
 
 
+# TODO: 1 big key
 def reduce_clusters(x):
     print('reducer: %s working on %s' % (os.getpid(), x))
     (key, clusters) = x

@@ -4,6 +4,7 @@ import os
 class FileSegmentReader():
     @staticmethod
     def read(filename, start, end, size=None):
+        # print('read', filename, start, end)
         f = open(filename, 'r')
 
         if size is None:
@@ -14,10 +15,16 @@ class FileSegmentReader():
         if start != 0:
             while True:  # skip until next line
                 c = f.read(1)
+                if f.tell() >= end:
+                    f.close()
+                    # print('returned')
+                    return []
                 if c == '\n':
                     break
 
-        data = f.read(end-start).split('\n')
+        # print('end=%s, start=%s, tell=%s' % (end, start, f.tell()))
+        data = f.read(end - f.tell()).split('\n')
+        # print('data=%s' % data)
 
         incomplete_line = data[-1] != ''
 
@@ -30,6 +37,8 @@ class FileSegmentReader():
                 if c == '\n':
                     break
                 data[-1] = data[-1] + c
+
+        # print('data=%s' % data)
 
         f.close()
         return data
