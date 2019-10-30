@@ -15,3 +15,5 @@ class LogMine():
 if __name__ == '__main__':
     with open('/Users/tdinh/Desktop/sentry_logs/home/sentry/logs/sentry-worker.log.4', 'r') as f:
         LogMine().parse(f)
+        # clusters = sorted(clusters, lambda x, y: y[1] - x[1])
+        # print('total', len(clusters))
