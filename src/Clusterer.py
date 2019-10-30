@@ -16,6 +16,8 @@ class Clusterer():
         self.preprocessor = Preprocessor(variables)
         self.scorer = LineScorer(k1, k2)
         self.max_dist = max_dist
+        # Each cluster is an array of
+        # (representative line as list of fields, count)
         self.clusters = []
 
     def reset(self):

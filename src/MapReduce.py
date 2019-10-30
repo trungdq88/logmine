@@ -5,7 +5,7 @@ import multiprocessing
 
 class MapReduce:
 
-    def __init__(self, map_func, reduce_func, num_workers=None):
+    def __init__(self, map_func, reduce_func, num_workers=None, params=None):
         """
         map_func
 
@@ -28,6 +28,7 @@ class MapReduce:
         self.map_func = map_func
         self.reduce_func = reduce_func
         self.pool = multiprocessing.Pool(num_workers)
+        self.params = params
 
     def partition(self, mapped_values):
         """Organize the mapped values by their key.
@@ -51,18 +52,24 @@ class MapReduce:
           This can be used to tune performance during the mapping
           phase.
         """
+        map_inputs = inputs
+        if self.params is not None:
+            map_inputs = zip(inputs, [self.params] * len(inputs))
+
         map_responses = self.pool.map(
             self.map_func,
-            inputs,
+            map_inputs,
             chunksize=chunksize,
         )
-        partitioned_data = self.partition(
-            itertools.chain(*map_responses)
-        )
-        reduced_values = self.pool.map(
-            self.reduce_func,
-            partitioned_data,
-        )
+        # TODO: Partitions balancing?
+        partitioned_data = self.partition(itertools.chain(*map_responses))
+
+        reduce_inputs = partitioned_data
+        if self.params is not None:
+            count = len(partitioned_data)
+            reduce_inputs = zip(partitioned_data, [self.params] * count)
+
+        reduced_values = self.pool.map(self.reduce_func, reduce_inputs)
         return reduced_values
 #
 #

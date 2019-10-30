@@ -1,76 +1,58 @@
 import os
 import multiprocessing
 from Clusterer import Clusterer
+from ClusterMerge import ClusterMerge
 from FileSegmentReader import FileSegmentReader
 from MapReduce import MapReduce
 
+FIXED_MAP_JOB_KEY = 1  # Single key for the whole map-reduce operation
 
-max_dist = 0.8
-clusterer = Clusterer(max_dist=max_dist)
+
+class Processor():
+    def __init__(self, config):
+        self.config = config
+
+    def process(self, filename):
+        f = open(filename, 'r')
+        f.seek(0, os.SEEK_END)
+        size = f.tell()
+        mapper = MapReduce(
+            map_segments_to_clusters,
+            reduce_clusters,
+            params=self.config
+        )
+        n = multiprocessing.cpu_count()
+        ranges = [(i * size / n, (i + 1) * size / n) for i in xrange(n)]
+        result = mapper([(filename, r[0], r[1], size) for r in ranges])
+        return result[0][1]
+
+    def process_single_core(self, filename):
+        clusterer = Clusterer(**self.config)
+        with open(filename, 'r') as f:
+            return clusterer.find(f)
+
+# The methods below are used by multiprocessing.Pool and need to be defined at
+# top level
 
 
 def map_segments_to_clusters(x):
     # print('mapper: %s working on %s' % (os.getpid(), x))
-    (filename, start, end, size) = x
+    ((filename, start, end, size), config) = x
+    clusterer = Clusterer(**config)
     lines = FileSegmentReader.read(filename, start, end, size)
     clusters = clusterer.find(lines)
-    return [(1, clusters)]
+    return [(FIXED_MAP_JOB_KEY, clusters)]
 
 
-# TODO: 1 big key
 def reduce_clusters(x):
     # print('reducer: %s working on %s items' % (os.getpid(), len(x[1])))
-    (key, clusters) = x
-    if len(clusters) <= 1:
-        return (key, clusters)
+    ((key, clusters_groups), config) = x
+    if len(clusters_groups) <= 1:
+        return (key, clusters_groups)
 
-    tmp = clusters[0]
-    for cluster in clusters[1:]:
-        tmp = merge_clusters(tmp, cluster)
-    return (key, tmp)
-
-
-def merge_clusters(cluster1, cluster2):
-    # print('merging %s-%s' % ((cluster1), (cluster2)))
-    if len(cluster1) > len(cluster2):
-        smaller = cluster2
-        base_list = cluster1
-    else:
-        smaller = cluster1
-        base_list = cluster2
-
-    result = base_list[:]
-
-    for [reprA, countA] in smaller:
-        exists = False
-        for i in range(len(result)):
-            [reprB, countB] = result[i]
-            score = clusterer.scorer.distance(reprA, reprB)
-            if score <= max_dist:
-                exists = True
-                result[i][1] += countA
-                break
-        if not exists:
-            result.append([reprA, countA])
-
-    return result
-
-
-class Processor():
-    def __init__(self, filename):
-        self.filename = filename
-        self.clusterer = Clusterer(max_dist=0.8)
-
-    def process(self):
-        f = open(self.filename, 'r')
-        f.seek(0, os.SEEK_END)
-        size = f.tell()
-        mapper = MapReduce(map_segments_to_clusters, reduce_clusters)
-        n = multiprocessing.cpu_count()
-        ranges = [(i * size / n, (i + 1) * size / n) for i in xrange(n)]
-        result = mapper([(self.filename, r[0], r[1], size) for r in ranges])
-        return result[0][1]
-
-    def process_single_core(self):
-        with open(self.filename, 'r') as f:
-            return self.clusterer.find(f)
+    base_clusters = clusters_groups[0]
+    merger = ClusterMerge(config)
+    for clusters in clusters_groups[1:]:
+        # print('merging %s-%s' % (len(base_clusters), len(clusters)))
+        base_clusters = merger.merge(base_clusters, clusters)
+    return (key, base_clusters)
