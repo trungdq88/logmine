@@ -22,7 +22,7 @@ class Clusterer():
         self.clusters = []
 
     def process_line(self, line):
-        tokens = re.split('\\s+', line)
+        tokens = re.split('\\s+', line.strip())
         processed_tokens = self.preprocessor.process(tokens)
 
         found = False

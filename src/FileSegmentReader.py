@@ -1,7 +1,15 @@
 import os
 
 
+def isStartOfLine(offset, f):
+    if offset == 0:
+        return True
+    f.seek(-1, os.SEEK_CUR)
+    return f.read(1) == '\n'
+
+
 class FileSegmentReader():
+
     @staticmethod
     def read(filename, start, end, size=None):
         # print('read', filename, start, end)
@@ -12,12 +20,12 @@ class FileSegmentReader():
             size = f.tell()
 
         f.seek(start, os.SEEK_SET)
-        if start != 0:
+        if not isStartOfLine(start, f):
             while True:  # skip until next line
                 c = f.read(1)
                 if f.tell() >= end:
+                    # print('returned', f.tell())
                     f.close()
-                    # print('returned')
                     return []
                 if c == '\n':
                     break

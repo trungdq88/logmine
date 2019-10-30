@@ -51,6 +51,10 @@ class TestFileSegmentReader(unittest.TestCase):
         lines = FileSegmentReader.read(self.FILE_B, 37, 50)
         self.assertEqual(lines, ['12', '13', '14', '15'])
 
+    def test_start_of_line(self):
+        lines = FileSegmentReader.read(self.FILE_B, 9, 14)
+        self.assertEqual(lines, ['44aaaxa'])
+
 
 if __name__ == '__main__':
     unittest.main()
