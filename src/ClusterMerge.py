@@ -1,6 +1,7 @@
 from Clusterer import Clusterer
 
 
+# TODO: counting is incorrect
 class ClusterMerge():
     def __init__(self, config):
         self.clusterer = Clusterer(**config)

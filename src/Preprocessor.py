@@ -15,10 +15,15 @@ class Preprocessor():
         if len(self.variables) == 0:
             return fields
 
-        for (name, regex) in self.variables:
-            for field in fields:
+        for field in fields:
+            matched = False
+            for (name, regex) in self.variables:
                 if re.match(regex, field):
-                    result.append(Variable(name))
-                else:
-                    result.append(field)
+                    matched = Variable(name)
+                    break
+
+            if matched:
+                result.append(Variable(name))
+            else:
+                result.append(field)
         return result
