@@ -1,4 +1,5 @@
 from Clusterer import Clusterer
+from alignment import create_pattern
 
 
 class ClusterMerge():
@@ -15,15 +16,16 @@ class ClusterMerge():
 
         result = base_list[:]
 
-        for [reprA, countA] in smaller:
+        for [reprA, countA, patternA] in smaller:
             exists = False
             for i in xrange(len(result)):
-                [reprB, countB] = result[i]
+                [reprB, countB, patternB] = result[i]
                 score = self.clusterer.scorer.distance(
                     reprA, reprB, self.clusterer.max_dist)
                 if score <= self.clusterer.max_dist:
                     exists = True
                     result[i][1] += countA
+                    result[i][2] = create_pattern(patternA, patternB)
                     break
             if not exists:
                 result.append([reprA, countA])

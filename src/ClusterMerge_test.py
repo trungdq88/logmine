@@ -8,18 +8,18 @@ class TestClusterMerge(unittest.TestCase):
         merger = ClusterMerge(config)
         result = merger.merge(
             [
-                [['a', 'b', 'c'], 1],
-                [['x', 'y', 'z'], 3],
+                [['a', 'b', 'c'], 1, []],
+                [['x', 'y', 'z'], 3, []],
             ],
             [
-                [['a', 'b', 'c'], 5],
-                [['m', 'n', 'p'], 2],
+                [['a', 'b', 'c'], 5, []],
+                [['m', 'n', 'p'], 2, []],
             ],
         )
         self.assertEqual(result, [
-            [['a', 'b', 'c'], 6],
-            [['m', 'n', 'p'], 2],
-            [['x', 'y', 'z'], 3]
+            [['a', 'b', 'c'], 6, []],
+            [['m', 'n', 'p'], 2, []],
+            [['x', 'y', 'z'], 3, []]
         ])
 
 

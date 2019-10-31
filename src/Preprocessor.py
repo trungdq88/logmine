@@ -23,7 +23,7 @@ class Preprocessor():
                     break
 
             if matched:
-                result.append(Variable(name))
+                result.append(matched)
             else:
                 result.append(field)
         return result

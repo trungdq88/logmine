@@ -3,6 +3,8 @@ class Variable():
         self.value = value
 
     def __eq__(self, other):
+        if isinstance(other, str):
+            return self.value == other
         return self.value == other.value
 
     def __repr__(self):
@@ -10,3 +12,9 @@ class Variable():
 
     def __str__(self):
         return self.value
+
+    def __add__(self, other):
+        return self.value + other
+
+    def __radd__(self, other):
+        return other + self.value
