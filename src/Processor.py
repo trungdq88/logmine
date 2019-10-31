@@ -5,6 +5,7 @@ from ClusterMerge import ClusterMerge
 from FileSegmentReader import FileSegmentReader
 from MapReduce import MapReduce
 
+
 FIXED_MAP_JOB_KEY = 1  # Single key for the whole map-reduce operation
 
 
@@ -70,7 +71,8 @@ def reduce_clusters(x):
     executed in one single processor. Most of the time, the number of clusters
     in this step is small so it is kind of acceptable.
     """
-    # print('reducer: %s working on %s items' % (os.getpid(), len(x[0][1])))
+    print('reducer: %s working on %s items' % (os.getpid(), len(x[0][1])))
+    # a = [debug_print(i) for i in x[0][1]]
     ((key, clusters_groups), config) = x
     if len(clusters_groups) <= 1:
         return (key, clusters_groups)  # Nothing to merge
@@ -79,5 +81,5 @@ def reduce_clusters(x):
     merger = ClusterMerge(config)
     for clusters in clusters_groups[1:]:
         # print('merging %s-%s' % (len(base_clusters), len(clusters)))
-        base_clusters = merger.merge(base_clusters, clusters)
+        merger.merge(base_clusters, clusters)
     return (key, base_clusters)

@@ -6,28 +6,25 @@ class ClusterMerge():
     def __init__(self, config):
         self.clusterer = Clusterer(**config)
 
-    def merge(self, clusters1, clusters2):
-        if len(clusters1) > len(clusters2):
-            smaller = clusters2
-            base_list = clusters1
-        else:
-            smaller = clusters1
-            base_list = clusters2
-
-        result = base_list[:]
-
-        for [reprA, countA, patternA] in smaller:
+    def merge(self, base_list, other_list):
+        for [reprA, countA, patternA] in other_list:
             exists = False
-            for i in xrange(len(result)):
-                [reprB, countB, patternB] = result[i]
+            for i in xrange(len(base_list)):
+                [reprB, countB, patternB] = base_list[i]
                 score = self.clusterer.scorer.distance(
                     reprA, reprB, self.clusterer.max_dist)
                 if score <= self.clusterer.max_dist:
                     exists = True
-                    result[i][1] += countA
-                    result[i][2] = create_pattern(patternA, patternB)
+                    base_list[i][1] += countA
+                    merged_pattern = create_pattern(patternA, patternB)
+                    # if len(merged_pattern) > 4 and patternA[2] == "sentry.tasks.process_buffer:":
+                    #     print('merged_pattern (ClusterMerge)')
+                    #     print(patternA, reprA)
+                    #     print(patternB, reprB)
+                    #     print('*')
+                    #     print(merged_pattern)
+                    #     print('---')
+                    base_list[i][2] = merged_pattern
                     break
             if not exists:
-                result.append([reprA, countA])
-
-        return result
+                base_list.append([reprA, countA, reprA])

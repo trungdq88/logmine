@@ -4,19 +4,27 @@ from LineScorer import LineScorer
 from alignment import create_pattern
 
 
-# print(alignment.water(['a','x', 'b', 'c'], ['a','c','b']))
-
-
 VARIABLES = [
     # ('<ip>', '\\d{3}\\.\\d{3}\\.\\d{3}\\.\\d{3}'),
-    # ('<date>', '\\d{4}-\\d{2}-\\d{2}'),
+    ('<date>', '\\d{4}-\\d{2}-\\d{2}'),
     ('<time>', '\\d{2}:\\d{2}(:\\d{2})?'),
-    # ('<number>', '\\d+'),
+    ('<number>', '\\d+'),
+    ('<email>', '\\w+@\\.\\w+'),
+    ('<version_number>', 'v\\d+\\.\\d+\\.\\d+'),
 ]
+
+DELIMETERS = '\\s'
 
 
 class Clusterer():
-    def __init__(self, k1=1, k2=1, max_dist=0.01, variables=[]):
+    def __init__(
+            self,
+            k1=1,
+            k2=1,
+            max_dist=0.01,
+            variables=[],
+            delimeters=DELIMETERS):
+        self.delimeters = delimeters
         self.preprocessor = Preprocessor(variables)
         self.scorer = LineScorer(k1, k2)
         self.max_dist = max_dist
@@ -28,7 +36,7 @@ class Clusterer():
         self.clusters = []
 
     def process_line(self, line):
-        tokens = re.split('\\s+', line.strip())
+        tokens = re.split(self.delimeters, line.strip())
         processed_tokens = self.preprocessor.process(tokens)
 
         found = False
@@ -40,7 +48,14 @@ class Clusterer():
             if score <= self.max_dist:
                 found = True
                 self.clusters[i][1] += 1
-                self.clusters[i][2] = create_pattern(pattern, processed_tokens)
+                merged_pattern = create_pattern(pattern, processed_tokens)
+                # if len(merged_pattern) > 4 and processed_tokens[2] == "sentry.tasks.process_buffer:":
+                #     print('merged_pattern (Clusterer)')
+                #     print(pattern)
+                #     print(processed_tokens)
+                #     print(merged_pattern)
+                #     print('---')
+                self.clusters[i][2] = merged_pattern
                 break
         if not found:
             self.clusters.append([processed_tokens, 1, processed_tokens])
