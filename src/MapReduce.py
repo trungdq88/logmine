@@ -3,9 +3,15 @@ import itertools
 import multiprocessing
 
 
+# In case the program use multiple MapReduce instances, we ensure there will
+# always be 1 pool used. Too many pools created will cause "Too many open
+# files" error.
+STATIC_POOL = [None]
+
+
 class MapReduce:
 
-    def __init__(self, map_func, reduce_func, num_workers=None, params=None):
+    def __init__(self, map_func, reduce_func, params=None):
         """
         map_func
 
@@ -25,10 +31,16 @@ class MapReduce:
           The number of workers to create in the pool. Defaults
           to the number of CPUs available on the current host.
         """
+        if STATIC_POOL[0] is None:
+            STATIC_POOL[0] = multiprocessing.Pool()
         self.map_func = map_func
         self.reduce_func = reduce_func
-        self.pool = multiprocessing.Pool(num_workers)
+        self.pool = STATIC_POOL[0]
         self.params = params
+
+    def dispose(self):
+        self.pool.close()
+        STATIC_POOL[0] = None
 
     def partition(self, mapped_values):
         """Organize the mapped values by their key.

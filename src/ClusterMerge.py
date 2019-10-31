@@ -1,7 +1,6 @@
 from Clusterer import Clusterer
 
 
-# TODO: counting is incorrect
 class ClusterMerge():
     def __init__(self, config):
         self.clusterer = Clusterer(**config)
@@ -18,7 +17,7 @@ class ClusterMerge():
 
         for [reprA, countA] in smaller:
             exists = False
-            for i in range(len(result)):
+            for i in xrange(len(result)):
                 [reprB, countB] = result[i]
                 score = self.clusterer.scorer.distance(
                     reprA, reprB, self.clusterer.max_dist)
