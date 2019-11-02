@@ -1,8 +1,7 @@
 import re
 from Preprocessor import Preprocessor
 from LineScorer import LineScorer
-from alignment import create_pattern
-
+from PatternGenerator import PatternGenerator
 
 VARIABLES = [
     # ('<ip>', '\\d{3}\\.\\d{3}\\.\\d{3}\\.\\d{3}'),
@@ -23,7 +22,9 @@ class Clusterer():
             k2=1,
             max_dist=0.01,
             variables=[],
-            delimeters=DELIMETERS):
+            delimeters=DELIMETERS,
+            pattern_placeholder='XXX'):
+        self.pattern_generator = PatternGenerator(pattern_placeholder)
         self.delimeters = delimeters
         self.preprocessor = Preprocessor(variables)
         self.scorer = LineScorer(k1, k2)
@@ -43,18 +44,14 @@ class Clusterer():
         for i in xrange(len(self.clusters)):
             [representative, count, pattern] = self.clusters[i]
             score = self.scorer.distance(
+                # representative, processed_tokens, self.max_dist
                 representative, processed_tokens, self.max_dist
             )
             if score <= self.max_dist:
                 found = True
                 self.clusters[i][1] += 1
-                merged_pattern = create_pattern(pattern, processed_tokens)
-                # if len(merged_pattern) > 4 and processed_tokens[2] == "sentry.tasks.process_buffer:":
-                #     print('merged_pattern (Clusterer)')
-                #     print(pattern)
-                #     print(processed_tokens)
-                #     print(merged_pattern)
-                #     print('---')
+                merged_pattern = self.pattern_generator.create_pattern(
+                    pattern, processed_tokens)
                 self.clusters[i][2] = merged_pattern
                 break
         if not found:

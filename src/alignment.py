@@ -113,14 +113,3 @@ def water(seq1, seq2):
             i -= 1
 
     return finalize(align1, align2)
-
-
-def create_pattern(a, b):
-    (a, b) = water(a, b)
-    new = []
-    for i in xrange(len(a)):
-        if a[i] == b[i]:
-            new.append(a[i])
-        else:
-            new.append('XXX')
-    return new
