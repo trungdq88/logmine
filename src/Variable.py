@@ -1,6 +1,7 @@
 class Variable():
-    def __init__(self, value):
+    def __init__(self, value, name=None):
         self.value = value
+        self.name = name or value
 
     def __eq__(self, other):
         if isinstance(other, str):

@@ -19,7 +19,7 @@ class Preprocessor():
             matched = False
             for (name, regex) in self.variables:
                 if re.match(regex, field):
-                    matched = Variable(name)
+                    matched = Variable(name, field)
                     break
 
             if matched:

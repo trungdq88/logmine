@@ -1,27 +1,44 @@
-from Processor import Processor
-# from Variable import Variable
-# from alignment import create_pattern
-
-# print(create_pattern(['a',Variable('x'), 'b', 'c'], ['a','c','b']))
+from LogMine import LogMine
+from Output import Output
 
 
-def debug_print(clusters):
-    print("------------")
-    clusters = sorted(clusters, lambda x, y: y[1] - x[1])
-    for [fields, count, pattern] in clusters:
-        print(
-            count,
-            ' '.join(map(str, pattern)),
-            ' '.join(map(str, fields))
-        )
-    print('total', len(clusters))
+VARIABLES = [
+    # ('<ip>', '\\d{3}\\.\\d{3}\\.\\d{3}\\.\\d{3}'),
+    ('<date>', '\\d{4}-\\d{2}-\\d{2}'),
+    ('<time>', '\\d{2}:\\d{2}(:\\d{2})?'),
+    ('<number>', '\\d+'),
+    ('<email>', '\\w+@\\.\\w+'),
+    ('<version_number>', 'v\\d+\\.\\d+\\.\\d+'),
+]
+
+DELIMETERS = '\\s'
 
 
 if __name__ == '__main__':
-    max_dist = 0.7
     # f = 'big.log'
     # f = 'Linux_2k.log'
-    f = 'a.log'
-    # f = '/Users/tdinh/desktop-archives/2019-11-02/sentry_logs/home/sentry/logs/sentry-worker.log'
-    singles = Processor({'max_dist': max_dist}).process(f)
-    debug_print(singles)
+    f = '/Users/tdinh/desktop-archives/2019-11-02/sentry_logs/home/sentry/logs/sentry-worker.log'
+    cluster_config = {
+        'k1': 1,
+        'k2': 1,
+        'max_dist': 0.7,
+        'variables': [],
+        'delimeters': '\\s',
+        'min_members': 2
+    }
+    output_options = {
+        'sorted': 'desc',
+        'number_align': True,
+        'pattern_placeholder': None,
+        'highlight_patterns': True,
+        'mask_variables': True,
+        'highlight_varibales': True,
+    }
+    processor_config = {
+        'single_core': False
+    }
+    clusters = LogMine(
+        processor_config,
+        cluster_config,
+        output_options
+    ).run(f)

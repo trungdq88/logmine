@@ -4,16 +4,25 @@ from Clusterer import Clusterer
 from ClusterMerge import ClusterMerge
 from FileSegmentReader import FileSegmentReader
 from MapReduce import MapReduce
+from Segmentator import Segmentator
 
 
 FIXED_MAP_JOB_KEY = 1  # Single key for the whole map-reduce operation
 
 
 class Processor():
-    def __init__(self, config):
+    def __init__(self, config, cluster_config):
+        self.cluster_config = cluster_config
+        self.segmentator = Segmentator(multiprocessing.cpu_count())
         self.config = config
 
-    def process(self, filename):
+    def process(self, filenames):
+        if self.config.get('single_core'):
+            return self.process_single_core(filenames)
+        else:
+            return self.process_multi_cores(filenames)
+
+    def process_multi_cores(self, filenames):
         """
         Process the file in parallel with multiple processes.
 
@@ -26,31 +35,28 @@ class Processor():
         expected, as the result depends on the processing order - which is
         not guaranteed when tasks are performed in parallel.
         """
-
-        # Check file length and split into multiple chunks
-        with open(filename, 'r') as f:
-            f.seek(0, os.SEEK_END)
-            size = f.tell()
-        n = multiprocessing.cpu_count()
-        ranges = [(i * size / n, (i + 1) * size / n) for i in xrange(n)]
+        segments = self.segmentator.create_segments(filenames)
 
         # Perform clustering all chunks in parallel
         mapper = MapReduce(
             map_segments_to_clusters,
             reduce_clusters,
-            params=self.config
+            params=self.cluster_config
         )
-        result = mapper([(filename, r[0], r[1], size) for r in ranges])
+        result = mapper(segments)
         (key, clusters) = result[0]  # Should only contains one result
         return clusters
 
-    def process_single_core(self, filename):
+    def process_single_core(self, filenames):
         """
         Process the file sequencially using 1 a single processor
         """
-        clusterer = Clusterer(**self.config)
-        with open(filename, 'r') as f:
-            return clusterer.find(f)
+        clusterer = Clusterer(**self.cluster_config)
+        for filename in filenames:
+            with open(filename, 'r') as f:
+                for line in f:
+                    clusterer.process_line(line)
+        return clusterer.result()
 
 # The methods below are used by multiprocessing.Pool and need to be defined at
 # top level
@@ -71,7 +77,7 @@ def reduce_clusters(x):
     executed in one single processor. Most of the time, the number of clusters
     in this step is small so it is kind of acceptable.
     """
-    print('reducer: %s working on %s items' % (os.getpid(), len(x[0][1])))
+    # print('reducer: %s working on %s items' % (os.getpid(), len(x[0][1])))
     # a = [debug_print(i) for i in x[0][1]]
     ((key, clusters_groups), config) = x
     if len(clusters_groups) <= 1:

@@ -3,17 +3,6 @@ from Preprocessor import Preprocessor
 from LineScorer import LineScorer
 from PatternGenerator import PatternGenerator
 
-VARIABLES = [
-    # ('<ip>', '\\d{3}\\.\\d{3}\\.\\d{3}\\.\\d{3}'),
-    ('<date>', '\\d{4}-\\d{2}-\\d{2}'),
-    ('<time>', '\\d{2}:\\d{2}(:\\d{2})?'),
-    ('<number>', '\\d+'),
-    ('<email>', '\\w+@\\.\\w+'),
-    ('<version_number>', 'v\\d+\\.\\d+\\.\\d+'),
-]
-
-DELIMETERS = '\\s'
-
 
 class Clusterer():
     def __init__(
@@ -22,13 +11,14 @@ class Clusterer():
             k2=1,
             max_dist=0.01,
             variables=[],
-            delimeters=DELIMETERS,
-            pattern_placeholder='XXX'):
-        self.pattern_generator = PatternGenerator(pattern_placeholder)
+            delimeters='\\s',
+            min_members=1):
+        self.pattern_generator = PatternGenerator()
         self.delimeters = delimeters
         self.preprocessor = Preprocessor(variables)
         self.scorer = LineScorer(k1, k2)
         self.max_dist = max_dist
+        self.min_members = min_members
         # Each cluster is an array of
         # [representative line as list of fields, count, pattern]
         self.clusters = []
@@ -57,8 +47,14 @@ class Clusterer():
         if not found:
             self.clusters.append([processed_tokens, 1, processed_tokens])
 
+    def result(self):
+        if self.min_members > 1:
+            return [c for c in self.clusters if c[1] >= self.min_members]
+        else:
+            return self.clusters
+
     def find(self, iterable_logs):
         self.reset()
         for line in iterable_logs:
             self.process_line(line)
-        return self.clusters
+        return self.result()

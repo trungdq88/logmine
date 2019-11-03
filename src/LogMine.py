@@ -1,19 +1,14 @@
-from Clusterer import Clusterer
+import glob
+from Processor import Processor
+from Output import Output
 
 
 class LogMine():
-    def __init__(self):
-        self.clusterer = Clusterer(max_dist=0.8)
+    def __init__(self, processor_config, cluster_config, output_options):
+        self.processor = Processor(processor_config, cluster_config)
+        self.output = Output(output_options)
 
-    def parse(self, f):
-        clusters = self.clusterer.find(f)
-        clusters = sorted(clusters, lambda x, y: y[1] - x[1])
-        for [fields, count] in clusters:
-            print(count, ' '.join(fields))
-
-
-if __name__ == '__main__':
-    with open('/Users/tdinh/Desktop/sentry_logs/home/sentry/logs/sentry-worker.log.4', 'r') as f:
-        LogMine().parse(f)
-        # clusters = sorted(clusters, lambda x, y: y[1] - x[1])
-        # print('total', len(clusters))
+    def run(self, glob_pattern):
+        f = glob.glob(glob_pattern)
+        clusters = self.processor.process(f)
+        self.output.out(clusters)

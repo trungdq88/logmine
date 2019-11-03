@@ -1,3 +1,4 @@
+import signal
 import collections
 import itertools
 import multiprocessing
@@ -32,7 +33,11 @@ class MapReduce:
           to the number of CPUs available on the current host.
         """
         if STATIC_POOL[0] is None:
+            # Disable SIGINT handler in all processes in the pool
+            # This helps terminate the whole pool when user press Ctrl + C
+            original_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
             STATIC_POOL[0] = multiprocessing.Pool()
+            signal.signal(signal.SIGINT, original_handler)
         self.map_func = map_func
         self.reduce_func = reduce_func
         self.pool = STATIC_POOL[0]
@@ -68,21 +73,26 @@ class MapReduce:
         if self.params is not None:
             map_inputs = zip(inputs, [self.params] * len(inputs))
 
-        map_responses = self.pool.map(
-            self.map_func,
-            map_inputs,
-            chunksize=chunksize,
-        )
-        # TODO: Partitions balancing?
-        partitioned_data = self.partition(itertools.chain(*map_responses))
+        try:
+            map_responses = self.pool.map(
+                self.map_func,
+                map_inputs,
+                chunksize=chunksize,
+            )
+            # TODO: Partitions balancing?
+            partitioned_data = self.partition(itertools.chain(*map_responses))
 
-        reduce_inputs = partitioned_data
-        if self.params is not None:
-            count = len(partitioned_data)
-            reduce_inputs = zip(partitioned_data, [self.params] * count)
+            reduce_inputs = partitioned_data
+            if self.params is not None:
+                count = len(partitioned_data)
+                reduce_inputs = zip(partitioned_data, [self.params] * count)
 
-        reduced_values = self.pool.map(self.reduce_func, reduce_inputs)
-        return reduced_values
+            reduced_values = self.pool.map(self.reduce_func, reduce_inputs)
+            return reduced_values
+        except KeyboardInterrupt:
+            print("Caught KeyboardInterrupt, terminating processes")
+            self.pool.terminate()
+            self.pool.join()
 #
 #
 # def file_to_words(filename):
