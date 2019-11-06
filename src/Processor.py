@@ -1,4 +1,4 @@
-import os
+import sys
 import multiprocessing
 from Clusterer import Clusterer
 from ClusterMerge import ClusterMerge
@@ -17,10 +17,13 @@ class Processor():
         self.config = config
 
     def process(self, filenames):
+        if filenames == ['-']:
+            return self.process_pipe()
+
         if self.config.get('single_core'):
             return self.process_single_core(filenames)
-        else:
-            return self.process_multi_cores(filenames)
+
+        return self.process_multi_cores(filenames)
 
     def process_multi_cores(self, filenames):
         """
@@ -53,7 +56,7 @@ class Processor():
 
     def process_single_core(self, filenames):
         """
-        Process the file sequencially using 1 a single processor
+        Process multiple files sequencially using a single processor
         """
         clusterer = Clusterer(**self.cluster_config)
         for filename in filenames:
@@ -61,6 +64,19 @@ class Processor():
                 for line in f:
                     clusterer.process_line(line)
         return clusterer.result()
+
+    def process_pipe(self):
+        """
+        Process continuously from stdin input stream
+        """
+        clusterer = Clusterer(**self.cluster_config)
+        try:
+            for line in sys.stdin:
+                clusterer.process_line(line)
+        except KeyboardInterrupt:
+            pass
+        finally:
+            return clusterer.result()
 
 # The methods below are used by multiprocessing.Pool and need to be defined at
 # top level

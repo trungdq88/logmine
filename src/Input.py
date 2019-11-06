@@ -9,6 +9,7 @@ class Input():
 
         parser.add_argument(
             'file',
+            default=['-'],
             type=str,
             nargs='*',
             help='Filenames or glob pattern to analyze.'
