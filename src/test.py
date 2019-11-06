@@ -19,12 +19,12 @@ if __name__ == '__main__':
     # f = 'Linux_2k.log'
     f = '/Users/tdinh/desktop-archives/2019-11-02/sentry_logs/home/sentry/logs/sentry-worker.log'
     cluster_config = {
-        'k1': 1,
-        'k2': 1,
         'max_dist': 0.7,
         'variables': [],
         'delimeters': '\\s',
-        'min_members': 2
+        'min_members': 2,
+        'k1': 1,
+        'k2': 1,
     }
     output_options = {
         'sorted': 'desc',
@@ -32,7 +32,7 @@ if __name__ == '__main__':
         'pattern_placeholder': None,
         'highlight_patterns': True,
         'mask_variables': True,
-        'highlight_varibales': True,
+        'highlight_variables': True,
     }
     processor_config = {
         'single_core': False

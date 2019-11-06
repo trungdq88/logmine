@@ -44,7 +44,11 @@ class Processor():
             params=self.cluster_config
         )
         result = mapper(segments)
-        (key, clusters) = result[0]  # Should only contains one result
+
+        if len(result) == 0:
+            return []
+
+        (key, clusters) = result[0]
         return clusters
 
     def process_single_core(self, filenames):

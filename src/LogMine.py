@@ -1,4 +1,3 @@
-import glob
 from Processor import Processor
 from Output import Output
 
@@ -8,7 +7,6 @@ class LogMine():
         self.processor = Processor(processor_config, cluster_config)
         self.output = Output(output_options)
 
-    def run(self, glob_pattern):
-        f = glob.glob(glob_pattern)
-        clusters = self.processor.process(f)
+    def run(self, files):
+        clusters = self.processor.process(files)
         self.output.out(clusters)

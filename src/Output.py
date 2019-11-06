@@ -12,6 +12,9 @@ class Output():
         self.options = options
 
     def out(self, clusters):
+        if len(clusters) == 0:
+            return
+
         if self.options.get('sorted') == 'desc':
             clusters = sorted(clusters, lambda x, y: y[1] - x[1])
         if self.options.get('sorted') == 'asc':
