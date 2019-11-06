@@ -45,6 +45,3 @@ def run():
     )
 
     return logmine.run(input_files)
-
-
-run()

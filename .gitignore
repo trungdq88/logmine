@@ -2,3 +2,6 @@
 *.log
 .v
 *.pyc
+*.egg-info/
+build/
+dist/
