@@ -4,6 +4,13 @@ logmine - a log pattern analyzer CLI
 A command-line tool to help you quickly inspect your log files and identify
 patterns.
 
+Install
+---
+
+Require Python 2.7+:
+
+    pip install logmine
+
 Usage
 ---
 Read a log file. It's too much, not easy to understand the overview:
@@ -11,10 +18,6 @@ Read a log file. It's too much, not easy to understand the overview:
     cat sample/Apache_2k.log
 
 ![image](https://user-images.githubusercontent.com/4214509/68390614-a140e000-01a0-11ea-905f-ce0c7ba72fba.png)
-
-Install `logmine` (require Python 2.7+):
-
-    pip install logmine
 
 `logmine` helps to cluster the logs into multiple clusters with common patterns
 along with the number of messages in each cluster.
