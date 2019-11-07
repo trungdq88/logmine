@@ -160,7 +160,7 @@ class Input():
         )
 
         parser.add_argument(
-            '-sc',
+            '-c',
             '--single-core',
             default=False,
             action='store_true',
