@@ -46,7 +46,7 @@ class Input():
         parser.add_argument(
             '-d',
             '--delimeters',
-            default='\\s',
+            default='\\s+',
             type=str,
             help="""
             A regex pattern used to split a line into multiple fields.
@@ -54,7 +54,7 @@ class Input():
         )
 
         parser.add_argument(
-            '-min',
+            '-i',
             '--min-members',
             default=2,
             type=int,
