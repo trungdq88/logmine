@@ -12,7 +12,7 @@ class Input():
             default=['-'],
             type=str,
             nargs='*',
-            help='Filenames or glob pattern to analyze.'
+            help='Filenames or glob pattern to analyze. Default: stdin'
         )
 
         parser.add_argument(
@@ -23,7 +23,7 @@ class Input():
             help="""
             This parameter control how the granularity of the clustering
             algorithm.  Lower the value will provide more granular clusters
-            (more clusters generated).
+            (more clusters generated). Default: 0.6
             """
         )
 
@@ -39,7 +39,7 @@ class Input():
             "name:/regex/". During processing time, LogMine will consider all
             texts that match varible regexes to be the same value. This is
             useful to reduce the number of unnecessary cluster generated, with
-            trade off of processing time.
+            trade off of processing time. Default: None
             """
         )
 
@@ -50,6 +50,7 @@ class Input():
             type=str,
             help="""
             A regex pattern used to split a line into multiple fields.
+            Default: "\\s+"
             """
         )
 
@@ -60,6 +61,7 @@ class Input():
             type=int,
             help="""
             Minimum number of members in a cluster to show in the result.
+            Default: 2
             """
         )
 
@@ -73,6 +75,7 @@ class Input():
             Internal weighting variable. This value will be used as the weight
             value when two fields have the same value. This is used in the
             score function to calculate the distance between two lines.
+            Default: 1
             """
         )
 
@@ -85,6 +88,7 @@ class Input():
             help="""
             Similar to k1 but for comparing variables. Two variable is
             considering the same if they have same name.
+            Default: 1
             """
         )
 
@@ -96,6 +100,7 @@ class Input():
             choices=['desc', 'asc'],
             help="""
             Sort the clusters by number of members.
+            Default: desc
             """
         )
 
@@ -106,7 +111,7 @@ class Input():
             action='store_false',
             default=True,
             help="""
-            Disable number align in output.
+            Disable number align in output. Default: True
             """
         )
 
@@ -116,7 +121,7 @@ class Input():
             default=None,
             type=str,
             help="""
-            Use a string as placeholder for patterns in output.
+            Use a string as placeholder for patterns in output. Default: None
             """
         )
 
@@ -127,7 +132,7 @@ class Input():
             default=True,
             action='store_false',
             help="""
-            Disable highlighting for patterns in output.
+            Disable highlighting for patterns in output. Default: True
             """
         )
 
@@ -139,7 +144,7 @@ class Input():
             action='store_false',
             help="""
             Disable masks for variables in output. When disabled variables
-            will be shown as the actual value.
+            will be shown as the actual value. Default: True
             """
         )
 
@@ -150,7 +155,7 @@ class Input():
             default=True,
             action='store_false',
             help="""
-            Disable highlighting for variables in output.
+            Disable highlighting for variables in output. Default: True
             """
         )
 
@@ -163,6 +168,7 @@ class Input():
             Force LogMine to only run on 1 core. This will increase the
             processing time. Note: the result output can be different
             compare to when run with multicores, this is expected.
+            Default: False
             """
         )
 
