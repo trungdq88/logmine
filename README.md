@@ -8,8 +8,6 @@ patterns.
 Install
 ---
 
-Require Python 2.7+:
-
     pip install logmine
 
 Usage
@@ -89,7 +87,6 @@ Contribute
 ---
 
 - Welcome all contributions
-- Pure Python 2
 - Run tests:
 
       ./test.sh
