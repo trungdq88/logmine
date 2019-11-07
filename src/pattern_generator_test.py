@@ -1,5 +1,5 @@
 import unittest
-from PatternGenerator import PatternGenerator
+from pattern_generator import PatternGenerator
 
 
 class TestPatternGenerator(unittest.TestCase):

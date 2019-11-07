@@ -1,5 +1,5 @@
-from Processor import Processor
-from Output import Output
+from processor import Processor
+from output import Output
 
 
 class LogMine():

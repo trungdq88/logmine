@@ -1,6 +1,6 @@
 import unittest
 from tempfile import mkstemp
-from Segmentator import Segmentator
+from segmentator import Segmentator
 
 
 class TestSegmentator(unittest.TestCase):

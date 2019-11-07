@@ -1,7 +1,7 @@
 import unittest
 import random
-from LineScorer import LineScorer
-from Variable import Variable
+from line_scorer import LineScorer
+from variable import Variable
 
 
 class TestLineScorer(unittest.TestCase):

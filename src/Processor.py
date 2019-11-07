@@ -1,10 +1,10 @@
 import sys
 import multiprocessing
-from Clusterer import Clusterer
-from ClusterMerge import ClusterMerge
-from FileSegmentReader import FileSegmentReader
-from MapReduce import MapReduce
-from Segmentator import Segmentator
+from clusterer import Clusterer
+from cluster_merge import ClusterMerge
+from file_segment_reader import FileSegmentReader
+from map_reduce import MapReduce
+from segmentator import Segmentator
 
 
 FIXED_MAP_JOB_KEY = 1  # Single key for the whole map-reduce operation

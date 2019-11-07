@@ -1,6 +1,6 @@
 import sys
-from LogMine import LogMine
-from Input import Input
+from log_mine import LogMine
+from cli_input import Input
 
 
 def run():

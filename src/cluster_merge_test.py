@@ -1,5 +1,5 @@
 import unittest
-from ClusterMerge import ClusterMerge
+from cluster_merge import ClusterMerge
 
 
 class TestClusterMerge(unittest.TestCase):

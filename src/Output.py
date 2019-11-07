@@ -1,5 +1,5 @@
-from PatternGenerator import PatternPlaceholder
-from Variable import Variable
+from pattern_generator import PatternPlaceholder
+from variable import Variable
 
 
 CRED = '\33[31m'

@@ -1,4 +1,4 @@
-from Variable import Variable
+from variable import Variable
 
 
 class LineScorer():
