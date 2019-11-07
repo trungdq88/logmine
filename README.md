@@ -25,7 +25,7 @@ along with the number of messages in each cluster.
 
     cat sample/Apache_2k.log | logmine
 
-![image](https://user-images.githubusercontent.com/4214509/68390662-bae22780-01a0-11ea-9559-cacf6ca8fef6.png)
+![image](https://user-images.githubusercontent.com/4214509/68392139-195cd500-01a4-11ea-907a-1a4391f23daa.png)
 
 You can have more granular clusters by adjusting `-m` value, the lower the
 value, the more details you will get.
