@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
      name='logmine',
-     version='0.1.2',
+     version='0.1.3',
      scripts=['logmine'],
      author="Tony Dinh",
      author_email="trungdq88@gmail.com",
