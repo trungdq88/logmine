@@ -38,14 +38,12 @@ pattern, you can replace those with your own placeholder.
 ![image](https://user-images.githubusercontent.com/4214509/68390718-d9e0b980-01a0-11ea-965c-38e44c32427f.png)
 
 You can define variables to reduce the number unnecessary patterns and have
-less clusters. For example, the command bellow replaces all date and number
-with `<time>` and `<number>` variable.
+less clusters. For example, the command bellow replaces all time texts
+with `<time>` variable.
 
-    cat sample/Apache_2k.log | logmine -m0.2 -p'---' \
-        -v "<number>:/\\d+/" \
-           "<time>:/\\d{2}:\\d{2}:\\d{2}/"
+    cat sample/Apache_2k.log | logmine -m0.2 -p'---' "<time>:/\\d{2}:\\d{2}:\\d{2}/"
 
-![image](https://user-images.githubusercontent.com/4214509/68390753-e9600280-01a0-11ea-8e8a-b3dd46dd772b.png)
+![image](https://user-images.githubusercontent.com/4214509/68391053-a7838c00-01a1-11ea-992c-2e06bd4cfaa2.png)
 
 [See all available options](#all-options)
 
