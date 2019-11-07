@@ -1,5 +1,6 @@
 logmine - a log pattern analyzer CLI
 ==
+[![PyPI version](https://badge.fury.io/py/logmine.svg)](https://badge.fury.io/py/logmine)
 
 A command-line tool to help you quickly inspect your log files and identify
 patterns.
