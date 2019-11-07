@@ -4,9 +4,18 @@ from Variable import Variable
 
 class Preprocessor():
     def __init__(self, variables=[]):
+        parsed_variables = []
+        for variable in variables:
+            parts = variable.split(':')
+            if len(parts) <= 1:
+                raise Exception('Invalid variable fortmat')
+            name = parts[0]
+            wrapped_regex = ':'.join(parts[1:])
+            regex = wrapped_regex.split('/')[1]
+            parsed_variables.append((name, regex))
         self.variables = map(
             lambda (name, regex): (name, re.compile(regex)),
-            variables
+            parsed_variables
         )
 
     def process(self, fields):
