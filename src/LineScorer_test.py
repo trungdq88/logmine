@@ -57,7 +57,3 @@ class TestLineScorer(unittest.TestCase):
         )
 
         self.assertTrue(scorer.early_returned)
-
-
-if __name__ == '__main__':
-    unittest.main()

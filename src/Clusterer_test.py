@@ -48,7 +48,3 @@ class TestClusterer(unittest.TestCase):
                 [['abc', 'm', 'n', 'q'], 1, ['abc', 'm', 'n', 'q']]
             ]
         )
-
-
-if __name__ == '__main__':
-    unittest.main()

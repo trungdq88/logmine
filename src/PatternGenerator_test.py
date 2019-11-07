@@ -14,7 +14,3 @@ class TestPatternGenerator(unittest.TestCase):
         self.assertEqual(pattern, ['a', 'XXX', 'b'])
         pattern = generator.create_pattern(['a', 'c', 'b'], ['a', 'b', 'd'])
         self.assertEqual(pattern, ['a', 'XXX', 'b', 'XXX'])
-
-
-if __name__ == '__main__':
-    unittest.main()

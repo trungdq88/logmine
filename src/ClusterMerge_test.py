@@ -42,7 +42,3 @@ class TestClusterMerge(unittest.TestCase):
             [['x', 'y', 'z'], 3, ['x', 'y', 'XXX']],
             [['m', 'n', 'p'], 2, ['m', 'n', 'XXX']]
         ])
-
-
-if __name__ == '__main__':
-    unittest.main()

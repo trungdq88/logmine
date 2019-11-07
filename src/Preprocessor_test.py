@@ -29,7 +29,3 @@ class TestPreprocessor(unittest.TestCase):
             processor.process(['127.123.321.888', 'abc', '456']),
             [Variable('ip'), Variable('name'), '456']
         )
-
-
-if __name__ == '__main__':
-    unittest.main()

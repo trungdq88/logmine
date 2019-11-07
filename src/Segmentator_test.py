@@ -36,7 +36,3 @@ class TestSegmentator(unittest.TestCase):
             (self.file3, 0, 4, 9),
             (self.file3, 4, 9, 9),
         ])
-
-
-if __name__ == '__main__':
-    unittest.main()
