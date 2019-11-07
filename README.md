@@ -77,6 +77,14 @@ Features
 - Tail mode: watch the clusters on a continuous input stream (TODO)
 - Sampling to reduce processing time on a large dataset (TODO)
 
+Contribute
+---
+
+- Welcome all contributions.
+- Pure Python 2
+- Run tests:
+
+    ./test.sh
 
 All options
 ---
