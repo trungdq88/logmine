@@ -32,7 +32,7 @@ value, the more details you will get.
 
     cat sample/Apache_2k.log | logmine -m0.2
     
-![image](https://user-images.githubusercontent.com/4214509/68390688-c9c8da00-01a0-11ea-8889-3acec1cde63b.png)
+![image](https://user-images.githubusercontent.com/4214509/68392281-6d67b980-01a4-11ea-96bc-92558a2a0e36.png)
 
 The texts in red are the placeholder for multiple values that fit in the
 pattern, you can replace those with your own placeholder.
