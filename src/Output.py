@@ -50,7 +50,7 @@ class Output():
                             value = str(field)
                         else:
                             value = field.name
-                        if self.options.get('highlight_varibales') is True:
+                        if self.options.get('highlight_variables') is True:
                             value = CYELLOW + value + CEND
                         output.append(value)
                     else:
