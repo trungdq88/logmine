@@ -12,16 +12,11 @@ Install
 
 Usage
 ---
-Read a log file. It's too much, not easy to understand the overview:
 
-    cat sample/Apache_2k.log
-
-![image](https://user-images.githubusercontent.com/4214509/68390614-a140e000-01a0-11ea-905f-ce0c7ba72fba.png)
+    cat sample/Apache_2k.log | logmine
 
 `logmine` helps to cluster the logs into multiple clusters with common patterns
 along with the number of messages in each cluster.
-
-    cat sample/Apache_2k.log | logmine
 
 ![image](https://user-images.githubusercontent.com/4214509/68392139-195cd500-01a4-11ea-907a-1a4391f23daa.png)
 
