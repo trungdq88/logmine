@@ -38,7 +38,7 @@ You can define variables to reduce the number unnecessary patterns and have
 less clusters. For example, the command bellow replaces all time texts
 with `<time>` variable.
 
-    cat sample/Apache_2k.log | logmine -m0.2 -p'---' "<time>:/\\d{2}:\\d{2}:\\d{2}/"
+    cat sample/Apache_2k.log | logmine -m0.2 -p'---' -v "<time>:/\\d{2}:\\d{2}:\\d{2}/"
 
 ![image](https://user-images.githubusercontent.com/4214509/68391053-a7838c00-01a1-11ea-992c-2e06bd4cfaa2.png)
 
