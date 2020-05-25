@@ -78,13 +78,17 @@ Features
 - Tail mode: watch the clusters on a continuous input stream (TODO)
 - Sampling to reduce processing time on a large dataset (TODO)
 
-Contribute
+Contribute / Development
 ---
 
 - Welcome all contributions
 - Run tests:
 
-      ./test.sh
+        ./test.sh
+
+- Run the dev version:
+
+        ./logmine sample/Apache_2k.log
 
 All options
 ---
