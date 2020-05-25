@@ -1,10 +1,12 @@
 import sys
+import os
 import multiprocessing
 from clusterer import Clusterer
 from cluster_merge import ClusterMerge
 from file_segment_reader import FileSegmentReader
 from map_reduce import MapReduce
 from segmentator import Segmentator
+from debug import log
 
 
 FIXED_MAP_JOB_KEY = 1  # Single key for the whole map-reduce operation
@@ -17,6 +19,8 @@ class Processor():
         self.config = config
 
     def process(self, filenames):
+        log("Processor: process filenames", filenames)
+
         if filenames == ['-']:
             return self.process_pipe()
 
@@ -38,7 +42,12 @@ class Processor():
         expected, as the result depends on the processing order - which is
         not guaranteed when tasks are performed in parallel.
         """
+
+        log("Processor: process multi cores", filenames)
+
         segments = self.segmentator.create_segments(filenames)
+
+        log("Processor: segments", segments)
 
         # Perform clustering all chunks in parallel
         mapper = MapReduce(
@@ -46,7 +55,10 @@ class Processor():
             reduce_clusters,
             params=self.cluster_config
         )
+
         result = mapper(segments)
+
+        log("Processor: result", result)
 
         if len(result) == 0:
             return []
@@ -83,7 +95,7 @@ class Processor():
 
 
 def map_segments_to_clusters(x):
-    # print('mapper: %s working on %s' % (os.getpid(), x))
+    log('mapper: %s working on %s' % (os.getpid(), x))
     ((filename, start, end, size), config) = x
     clusterer = Clusterer(**config)
     lines = FileSegmentReader.read(filename, start, end, size)
@@ -97,7 +109,7 @@ def reduce_clusters(x):
     executed in one single processor. Most of the time, the number of clusters
     in this step is small so it is kind of acceptable.
     """
-    # print('reducer: %s working on %s items' % (os.getpid(), len(x[0][1])))
+    log('reducer: %s working on %s items' % (os.getpid(), len(x[0][1])))
     # a = [debug_print(i) for i in x[0][1]]
     ((key, clusters_groups), config) = x
     if len(clusters_groups) <= 1:
