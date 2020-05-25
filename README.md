@@ -82,6 +82,10 @@ Contribute / Development
 ---
 
 - Welcome all contributions
+- Activate virtual env:
+
+        source ./.v/bin/activate
+
 - Run tests:
 
         ./test.sh
