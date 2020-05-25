@@ -1,5 +1,6 @@
 from pattern_generator import PatternPlaceholder
 from variable import Variable
+from debug import log
 
 
 CRED = '\33[31m'
@@ -12,6 +13,7 @@ class Output():
         self.options = options
 
     def out(self, clusters):
+        log("Output: out", clusters)
         if len(clusters) == 0:
             return
 
@@ -26,33 +28,42 @@ class Output():
             width = 0
 
         for [fields, count, pattern] in clusters:
+            subject = []
             output = []
+
             # Note: the length of "fields" can be different with the length of
             # "pattern", this is because with a large max_dist config, many
             # different lines are put into the same cluster, thus the pattern
-            # is not accurate. For cases like this, just print the fields.
+            # is not accurate. For cases like this, just print the patterns to
+            # be safe and avoid confusions.
             if len(fields) != len(pattern):
-                output = fields
+                log('subject = pattern')
+                subject = pattern
             else:
-                for i in xrange(len(fields)):
-                    field = fields[i]
-                    if isinstance(pattern[i], PatternPlaceholder):
-                        placeholder = self.options.get('pattern_placeholder')
-                        if placeholder is None:
-                            value = field
-                        else:
-                            value = placeholder
-                        if self.options.get('highlight_patterns') is True:
-                            value = CRED + value + CEND
-                        output.append(value)
-                    elif isinstance(pattern[i], Variable):
-                        if self.options.get('mask_variables') is True:
-                            value = str(field)
-                        else:
-                            value = field.name
-                        if self.options.get('highlight_variables') is True:
-                            value = CYELLOW + value + CEND
-                        output.append(value)
+                log('subject = fields')
+                subject = fields
+
+            for i in xrange(len(subject)):
+                field = subject[i]
+                if isinstance(pattern[i], PatternPlaceholder):
+                    placeholder = self.options.get('pattern_placeholder')
+                    if placeholder is None:
+                        value = field
                     else:
-                        output.append(field)
+                        value = placeholder
+                    if self.options.get('highlight_patterns') is True:
+                        value = CRED + value + CEND
+                    output.append(value)
+                elif isinstance(pattern[i], Variable):
+                    if self.options.get('mask_variables') is True:
+                        value = str(field)
+                    else:
+                        value = field.name
+                    if self.options.get('highlight_variables') is True:
+                        value = CYELLOW + value + CEND
+                    output.append(value)
+                else:
+                    output.append(field)
+
+            log("Output: start print -----------------------------------")
             print('%s %s' % (str(count).rjust(width), ' '.join(output)))
