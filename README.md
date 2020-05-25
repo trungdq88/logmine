@@ -90,6 +90,10 @@ Contribute / Development
 
         ./logmine sample/Apache_2k.log
 
+- Publish:
+    - Update the version value in `setup.py` following semver.
+    - run `./publish.sh`
+
 All options
 ---
 
