@@ -14,7 +14,7 @@ class Preprocessor():
             regex = wrapped_regex.split('/')[1]
             parsed_variables.append((name, regex))
         self.variables = map(
-            lambda (name, regex): (name, re.compile(regex)),
+            lambda tuple: (tuple[0], re.compile(tuple[1])),
             parsed_variables
         )
 
