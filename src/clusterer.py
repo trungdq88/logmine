@@ -1,7 +1,7 @@
 import re
-from preprocessor import Preprocessor
-from line_scorer import LineScorer
-from pattern_generator import PatternGenerator
+from .preprocessor import Preprocessor
+from .line_scorer import LineScorer
+from .pattern_generator import PatternGenerator
 
 
 class Clusterer():

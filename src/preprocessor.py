@@ -1,5 +1,5 @@
 import re
-from variable import Variable
+from .variable import Variable
 
 
 class Preprocessor():

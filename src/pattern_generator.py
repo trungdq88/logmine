@@ -1,4 +1,4 @@
-from vendor.alignment import water
+from .vendor.alignment import water
 
 
 class PatternPlaceholder(str):

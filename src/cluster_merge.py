@@ -1,4 +1,4 @@
-from clusterer import Clusterer
+from .clusterer import Clusterer
 
 
 class ClusterMerge():

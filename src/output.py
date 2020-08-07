@@ -1,6 +1,6 @@
-from pattern_generator import PatternPlaceholder
-from variable import Variable
-from debug import log
+from .pattern_generator import PatternPlaceholder
+from .variable import Variable
+from .debug import log
 
 
 CRED = '\33[31m'
