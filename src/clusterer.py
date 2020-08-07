@@ -31,7 +31,7 @@ class Clusterer():
         processed_tokens = self.preprocessor.process(tokens)
 
         found = False
-        for i in xrange(len(self.clusters)):
+        for i in range(len(self.clusters)):
             [representative, count, pattern] = self.clusters[i]
             score = self.scorer.distance(
                 # representative, processed_tokens, self.max_dist

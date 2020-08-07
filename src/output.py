@@ -43,7 +43,7 @@ class Output():
                 log('subject = fields')
                 subject = fields
 
-            for i in xrange(len(subject)):
+            for i in range(len(subject)):
                 field = subject[i]
                 if isinstance(pattern[i], PatternPlaceholder):
                     placeholder = self.options.get('pattern_placeholder')

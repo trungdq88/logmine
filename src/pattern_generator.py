@@ -14,7 +14,7 @@ class PatternGenerator():
             return []
         (a, b) = water(a, b)
         new = []
-        for i in xrange(len(a)):
+        for i in range(len(a)):
             if a[i] == b[i]:
                 new.append(a[i])
             else:
