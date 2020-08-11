@@ -82,8 +82,9 @@ Contribute / Development
 ---
 
 - Welcome all contributions
-- Activate virtual env:
+- Create (if not yet exists) & activate virtual env:
 
+        virtualenv -p $(which python3) .v
         source ./.v/bin/activate
 
 - Run tests:
