@@ -1,5 +1,5 @@
 import re
-from variable import Variable
+from .variable import Variable
 
 
 class Preprocessor():
@@ -13,10 +13,9 @@ class Preprocessor():
             wrapped_regex = ':'.join(parts[1:])
             regex = wrapped_regex.split('/')[1]
             parsed_variables.append((name, regex))
-        self.variables = map(
-            lambda (name, regex): (name, re.compile(regex)),
-            parsed_variables
-        )
+        self.variables = [
+            (tuple[0], re.compile(tuple[1])) for tuple in parsed_variables
+        ]
 
     def process(self, fields):
         result = []

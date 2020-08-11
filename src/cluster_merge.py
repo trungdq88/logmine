@@ -1,4 +1,4 @@
-from clusterer import Clusterer
+from .clusterer import Clusterer
 
 
 class ClusterMerge():
@@ -9,7 +9,7 @@ class ClusterMerge():
     def merge(self, base_list, other_list):
         for [reprA, countA, patternA] in other_list:
             exists = False
-            for i in xrange(len(base_list)):
+            for i in range(len(base_list)):
                 [reprB, countB, patternB] = base_list[i]
                 score = self.clusterer.scorer.distance(
                     reprA, reprB, self.clusterer.max_dist)

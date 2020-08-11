@@ -1,6 +1,6 @@
 import unittest
-from preprocessor import Preprocessor
-from variable import Variable
+from .preprocessor import Preprocessor
+from .variable import Variable
 
 
 class TestPreprocessor(unittest.TestCase):

@@ -4,7 +4,8 @@ import os
 def isStartOfLine(offset, f):
     if offset == 0:
         return True
-    f.seek(-1, os.SEEK_CUR)
+    crt_pos = f.tell()
+    f.seek(crt_pos-1, os.SEEK_SET)
     return f.read(1) == '\n'
 
 

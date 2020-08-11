@@ -1,5 +1,5 @@
 import unittest
-from file_segment_reader import FileSegmentReader
+from .file_segment_reader import FileSegmentReader
 
 
 class TestFileSegmentReader(unittest.TestCase):
