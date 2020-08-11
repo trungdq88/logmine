@@ -1,6 +1,7 @@
 from .pattern_generator import PatternPlaceholder
 from .variable import Variable
 from .debug import log
+import functools
 
 
 CRED = '\33[31m'
@@ -18,9 +19,11 @@ class Output():
             return
 
         if self.options.get('sorted') == 'desc':
-            clusters = sorted(clusters, lambda x, y: y[1] - x[1])
+            sort_func = functools.cmp_to_key(lambda x, y: y[1] - x[1])
+            clusters = sorted(clusters, key=sort_func)
         if self.options.get('sorted') == 'asc':
-            clusters = sorted(clusters, lambda x, y: x[1] - y[1])
+            sort_func = functools.cmp_to_key(lambda x, y: x[1] - y[1])
+            clusters = sorted(clusters, key=sort_func)
 
         if self.options.get('number_align') is True:
             width = max([len(str(c[1])) for c in clusters])
