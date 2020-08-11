@@ -1,6 +1,6 @@
-from processor import Processor
-from output import Output
-from debug import log
+from .processor import Processor
+from .output import Output
+from .debug import log
 
 
 class LogMine():

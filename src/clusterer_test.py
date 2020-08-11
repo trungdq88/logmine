@@ -1,5 +1,5 @@
 import unittest
-from clusterer import Clusterer
+from .clusterer import Clusterer
 
 
 class TestClusterer(unittest.TestCase):

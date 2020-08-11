@@ -23,7 +23,7 @@ class Segmentator():
     def _split_file(self, file_with_size):
         (filename, size) = file_with_size
         n = self.prefer_size
-        ranges = [(i * size / n, (i + 1) * size / n) for i in xrange(n)]
+        ranges = [(i * size // n, (i + 1) * size // n) for i in range(n)]
         return [(filename, r[0], r[1], size) for r in ranges]
 
     def create_segments(self, filenames):
