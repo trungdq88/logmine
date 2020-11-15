@@ -25,7 +25,7 @@ gap_penalty = 0  # both for opening and extanding
 def match_score(alpha, beta):
     if alpha == beta:
         return match_award
-    elif alpha == '-' or beta == '-':
+    elif alpha is None or beta is None:
         return gap_penalty
     else:
         return mismatch_penalty
@@ -49,13 +49,13 @@ def finalize(align1, align2):
             score += match_score(align1[i], align2[i])
     
         # if they are not identical and none of them is gap
-        elif align1[i] != align2[i] and align1[i] != '-' and align2[i] != '-': 
+        elif align1[i] != align2[i] and align1[i] is not None and align2[i] is not None: 
             score += match_score(align1[i], align2[i])
             symbol += ' '
             found = 0
     
         #if one of them is a gap, output a space
-        elif align1[i] == '-' or align2[i] == '-':          
+        elif align1[i] is None or align2[i] is None:
             symbol += ' '
             score += gap_penalty
     
@@ -104,12 +104,12 @@ def water(seq1, seq2):
             i -= 1
             j -= 1
         elif pointer[i][j] == 2:
-            align1.append('-')
+            align1.append(None)
             align2.append(seq2[j-1])
             j -= 1
         elif pointer[i][j] == 1:
             align1.append(seq1[i-1])
-            align2.append('-')
+            align2.append(None)
             i -= 1
 
     return finalize(align1, align2)
