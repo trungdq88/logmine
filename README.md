@@ -82,7 +82,7 @@ Contribute / Development
 ---
 
 - Welcome all contributions
--
+
 - Install `virtualenv` (and optionally `twine` if you intend to publish):
 
         python3 -m pip install virtualenv twine
