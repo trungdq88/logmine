@@ -82,9 +82,17 @@ Contribute / Development
 ---
 
 - Welcome all contributions
+-
+- Install `virtualenv` (and optionally `twine` if you intend to publish):
+
+        python3 -m pip install virtualenv twine
+
 - Create (if not yet exists) & activate virtual env:
 
-        virtualenv -p $(which python3) .v
+        python3 -m virtualenv -p $(which python3) .v
+
+- Activate the virtualenv
+
         source ./.v/bin/activate
 
 - Run tests:
