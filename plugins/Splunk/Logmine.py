@@ -6,7 +6,7 @@ from splunklib.searchcommands import dispatch, EventingCommand, Configuration
 
 @Configuration()  
 
-class testpython(EventingCommand):  
+class Logmine(EventingCommand):  
     def __init__( self ):
         self.delimiters = "\\s"
         self.clusters = []
@@ -18,7 +18,7 @@ class testpython(EventingCommand):
         self.mismatch_penalty = 1
         self.gap_penalty = 0
         self.placeholder = '---'
-        self.listout = [{'frequency': 1, 'pattern': 2}]
+        self.listout = []
         EventingCommand.__init__(self)
 
     def create_pattern(self, a, b):
@@ -198,4 +198,4 @@ class testpython(EventingCommand):
         return self.listout #self.contents
 
 if __name__ == "__main__":
-            dispatch(testpython, sys.argv, sys.stdin, sys.stdout, __name__)
+            dispatch(Logmine, sys.argv, sys.stdin, sys.stdout, __name__)
