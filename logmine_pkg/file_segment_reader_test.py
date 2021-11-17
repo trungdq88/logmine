@@ -3,8 +3,8 @@ from .file_segment_reader import FileSegmentReader
 
 
 class TestFileSegmentReader(unittest.TestCase):
-    FILE_A = 'src/tests/a.log.test'
-    FILE_B = 'src/tests/b.log.test'
+    FILE_A = 'logmine_pkg/tests/a.log.test'
+    FILE_B = 'logmine_pkg/tests/b.log.test'
 
     def test_read_until_next_line(self):
         lines = FileSegmentReader.read(self.FILE_A, 0, 1)
