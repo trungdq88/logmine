@@ -5,4 +5,4 @@
 *.egg-info/
 build/
 dist/
-src/__pycache__
+logmine_pkg/__pycache__
