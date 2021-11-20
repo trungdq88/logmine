@@ -9,7 +9,7 @@ setuptools.setup(
      version='0.3.0',
      scripts=['logmine'],
      author="Tony Dinh",
-     author_email="trungdq88@gmail.com",
+     author_email="pip@tonydinh.com",
      description="Log pattern analyzer",
      long_description=long_description,
      long_description_content_type="text/markdown",
