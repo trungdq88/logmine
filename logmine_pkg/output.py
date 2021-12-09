@@ -2,6 +2,7 @@ from .pattern_generator import PatternPlaceholder
 from .variable import Variable
 from .debug import log
 import functools
+import sys
 
 
 CRED = '\33[31m'
@@ -12,6 +13,10 @@ CEND = '\033[0m'
 class Output():
     def __init__(self, options):
         self.options = options
+        self.output_file = sys.stdout
+    
+    def set_output_file(self, file):
+        self.output_file = file
 
     def out(self, clusters):
         log("Output: out", clusters)
@@ -69,4 +74,4 @@ class Output():
                     output.append(field)
 
             log("Output: start print -----------------------------------")
-            print('%s %s' % (str(count).rjust(width), ' '.join(output)))
+            print('%s %s' % (str(count).rjust(width), ' '.join(output)), file=self.output_file)

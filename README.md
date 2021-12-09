@@ -107,7 +107,7 @@ Contribute / Development
     - Update the version value in `setup.py` following semver.
     - run `./publish.sh`
 
-All options
+CLI options
 ---
 
 ```
@@ -173,4 +173,19 @@ optional arguments:
                         increase the processing time. Note: the result output
                         can be different compare to when run with multicores,
                         this is expected. Default: False
+```
+
+
+Capturing the analysis result in a buffer
+---
+
+By default, logmine writes the analysis results to stdout. In order to capture this output, a file-like object can be passed using the `set_output_file()` method to capture the result string, like in the below example :
+
+```python
+buffer = io.StringIO()
+lm = LogMine() # pass the usual parameters
+lm.output.set_output_file(file=buffer)
+lm.run()
+# The captured output can be accessed in the buffer.
+print(buffer.getvalue())
 ```
