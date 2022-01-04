@@ -4,6 +4,8 @@ class Variable():
         self.name = name or value
 
     def __eq__(self, other):
+        if other is None:
+            return False
         if isinstance(other, str):
             return self.value == other
         return self.value == other.value
