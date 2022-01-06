@@ -74,4 +74,4 @@ class Output():
                     output.append(field)
 
             log("Output: start print -----------------------------------")
-            print('%s %s' % (str(count).rjust(width), ' '.join(output)), file=self.output_file)
+            print('%s %s' % (str(count).rjust(width), ' '.join(str(_) for _ in output)), file=self.output_file)
